@@ -475,7 +475,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to create shareable URL for an activity
   function createShareUrl(activityName, activityDetails) {
     const baseUrl = window.location.origin + window.location.pathname;
-    const shareText = `Check out ${activityName} at Mergington High School! ${activityDetails.description}`;
+    // Sanitize text by creating a temporary element
+    const sanitize = (text) => {
+      const temp = document.createElement('div');
+      temp.textContent = text;
+      return temp.innerHTML;
+    };
+    const shareText = `Check out ${sanitize(activityName)} at Mergington High School! ${sanitize(activityDetails.description)}`;
     return { baseUrl, shareText, activityName };
   }
 
@@ -495,7 +501,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to share on LinkedIn
   function shareOnLinkedIn(activityName, activityDetails) {
-    const { baseUrl, shareText } = createShareUrl(activityName, activityDetails);
+    const { baseUrl } = createShareUrl(activityName, activityDetails);
     const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(baseUrl)}`;
     window.open(linkedInUrl, '_blank', 'width=550,height=420');
   }
@@ -582,13 +588,13 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
       <div class="share-buttons">
         <span class="share-label">Share:</span>
-        <button class="share-button twitter" data-activity="${name}" title="Share on Twitter">
+        <button class="share-button twitter" data-activity="${name}" title="Share on Twitter" aria-label="Share ${name} on Twitter">
           𝕏
         </button>
-        <button class="share-button facebook" data-activity="${name}" title="Share on Facebook">
+        <button class="share-button facebook" data-activity="${name}" title="Share on Facebook" aria-label="Share ${name} on Facebook">
           f
         </button>
-        <button class="share-button linkedin" data-activity="${name}" title="Share on LinkedIn">
+        <button class="share-button linkedin" data-activity="${name}" title="Share on LinkedIn" aria-label="Share ${name} on LinkedIn">
           in
         </button>
       </div>
@@ -622,20 +628,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const facebookButton = activityCard.querySelector(".share-button.facebook");
     const linkedinButton = activityCard.querySelector(".share-button.linkedin");
     
-    twitterButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      shareOnTwitter(name, details);
-    });
+    if (twitterButton) {
+      twitterButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        shareOnTwitter(name, details);
+      });
+    }
     
-    facebookButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      shareOnFacebook(name, details);
-    });
+    if (facebookButton) {
+      facebookButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        shareOnFacebook(name, details);
+      });
+    }
     
-    linkedinButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      shareOnLinkedIn(name, details);
-    });
+    if (linkedinButton) {
+      linkedinButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        shareOnLinkedIn(name, details);
+      });
+    }
 
     // Add click handler for register button (only when authenticated)
     if (currentUser) {
