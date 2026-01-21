@@ -30,6 +30,11 @@
   --error-light: #ffebee;
   --info: #0c5460;
   --info-light: #d1ecf1;
+
+  /* Social media brand colors */
+  --twitter-blue: #1DA1F2;
+  --facebook-blue: #1877F2;
+  --linkedin-blue: #0A66C2;
 }
 
 * {
@@ -663,4 +668,55 @@ footer {
 
 #logout-button:hover {
   background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Social Share Buttons */
+.share-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-light);
+  justify-content: center;
+}
+
+.share-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+.share-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.share-button.twitter {
+  background-color: var(--twitter-blue);
+  color: white;
+}
+
+.share-button.facebook {
+  background-color: var(--facebook-blue);
+  color: white;
+}
+
+.share-button.linkedin {
+  background-color: var(--linkedin-blue);
+  color: white;
+}
+
+.share-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-right: 8px;
+  font-weight: 500;
 }
